@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f4f6ed;
+  color: #263018;
+}
+
+.dark body {
+  background: #171d12;
+  color: #f4f6ed;
+}
+
+html[data-theme="light"] body {
+  background: #f4f6ed;
+  color: #263018;
+}
+
+html[data-theme="dark"] body {
+  background: #171d12;
+  color: #f4f6ed;
+}
+
+@layer components {
+  .panel {
+    @apply rounded-lg border border-olive-100 bg-white p-5 shadow-soft dark:border-olive-800 dark:bg-olive-900 dark:text-olive-50;
+  }
+
+  .field {
+    @apply w-full rounded-lg border border-olive-100 bg-white px-4 py-3 text-sm text-olive-900 outline-none transition placeholder:text-stone-400 focus:border-olive-600 focus:ring-4 focus:ring-olive-100 dark:border-olive-700 dark:bg-olive-800 dark:text-olive-50 dark:placeholder:text-olive-300 dark:focus:border-olive-300 dark:focus:ring-olive-700;
+  }
+
+  .primary-btn {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-olive-800 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-olive-900 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-olive-100 dark:text-olive-900 dark:hover:bg-white;
+  }
+
+  .icon-btn {
+    @apply inline-flex h-11 w-11 items-center justify-center rounded-lg bg-olive-800 text-white shadow-sm transition hover:bg-olive-900 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-olive-100 dark:text-olive-900 dark:hover:bg-white;
+  }
+
+  .secondary-btn {
+    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-olive-100 bg-white px-4 py-2 text-sm font-semibold text-olive-800 shadow-sm transition hover:border-olive-200 hover:bg-olive-50 disabled:cursor-not-allowed disabled:opacity-60 dark:border-olive-700 dark:bg-olive-800 dark:text-olive-50 dark:hover:border-olive-600 dark:hover:bg-olive-700;
+  }
+
+  .danger-btn {
+    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-red-500 dark:text-white dark:hover:bg-red-400;
+  }
+
+  .eyebrow {
+    @apply text-xs font-bold uppercase tracking-wide text-olive-600 dark:text-olive-300;
+  }
+}

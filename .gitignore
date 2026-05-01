@@ -1,0 +1,38 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Logs and runtime output
+*.log
+*.err
+logs/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Frontend
+Frontend/node_modules/
+Frontend/dist/
+Frontend/.vite/
+Frontend/.env
+Frontend/.env.*
+!Frontend/.env.example
+
+# Backend
+Backend/.env
+Backend/.env.*
+!Backend/.env.example
+Backend/.venv/
+Backend/venv/
+Backend/env/
+Backend/__pycache__/
+Backend/**/*.py[cod]
+Backend/**/__pycache__/
+Backend/*.db
+Backend/*.sqlite
+Backend/*.sqlite3
+
