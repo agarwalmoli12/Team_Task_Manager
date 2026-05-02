@@ -47,11 +47,11 @@ export default function DashboardPage({ session, logout, theme, changeTheme }) {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
   const token = session.access_token;
-  const currentUser = session?.user || {};
+  const currentUser = session?.user || {};                        // FIX 1: safe user object
   const selectedProject =
     projects.find((project) => project.id === selectedProjectId) || projects[0];
   const activeProjectId = selectedProject?.id || null;
-  const const isAccountAdmin = currentUser?.role === "admin";
+  const isAccountAdmin = currentUser?.role === "admin";           // FIX 2: removed duplicate 'const'
   const isProjectAdmin = selectedProject?.my_role === "admin";
   const normalizedSearch = search.trim().toLowerCase();
   const filteredProjects = normalizedSearch
@@ -266,7 +266,7 @@ export default function DashboardPage({ session, logout, theme, changeTheme }) {
     <div className="flex min-h-screen bg-olive-50 dark:bg-[#171d12]">
       <Sidebar
         logout={logout}
-        user={current.user}
+        user={currentUser}                          // FIX 3: current.user → currentUser
         onNavigate={(section) => scrollToSection(section)}
       />
 
@@ -275,7 +275,7 @@ export default function DashboardPage({ session, logout, theme, changeTheme }) {
           <div className="h-full w-72" onClick={(e) => e.stopPropagation()}>
             <Sidebar
               logout={logout}
-              user={current.user}
+              user={currentUser}                    // FIX 3: current.user → currentUser
               mobile
               onClose={() => setMobileMenuOpen(false)}
               onNavigate={(section) => scrollToSection(section)}
@@ -286,7 +286,7 @@ export default function DashboardPage({ session, logout, theme, changeTheme }) {
 
       <main id="dashboard" className="min-w-0 flex-1 p-4 sm:p-6">
         <Header
-          user={session.user}
+          user={currentUser}                        // FIX 3: session.user → currentUser
           theme={theme}
           changeTheme={changeTheme}
           search={search}
