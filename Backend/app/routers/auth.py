@@ -43,3 +43,12 @@ def login(data: UserLogin, db: Session = Depends(get_db)):
         "token_type": "bearer",
         "user": user
     }
+    
+@router.post("/make-admin")
+def make_admin(email: str, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    user.role = "admin"
+    db.commit()
+    return {"message": f"{user.email} is now admin"}
