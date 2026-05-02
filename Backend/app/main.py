@@ -28,9 +28,9 @@ async def startup():
     # Startup pe tables banao — safely
     try:
         Base.metadata.create_all(bind=engine)
-        print("✅ Database tables created!")
+        print(" Database tables created!")
     except Exception as e:
-        print(f"⚠️ DB Error: {e}")
+        print(f" DB Error: {e}")
 
 @app.get("/")
 def root():
