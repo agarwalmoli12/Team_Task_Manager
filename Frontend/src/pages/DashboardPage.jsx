@@ -100,14 +100,18 @@ export default function DashboardPage({ session, logout, theme, changeTheme }) {
     setMembers(memberData);
   }
 
+  
   async function loadData(preferredProjectId = selectedProjectId) {
     setError("");
     const projectData = await apiRequest("/projects/", { token });
     const dashboardData = await apiRequest("/dashboard/", { token });
+    
+    
+    const projectArray = Array.isArray(projectData) ? projectData : [];
     const nextProject =
-      projectData.find((project) => project.id === preferredProjectId) || projectData[0];
+      projectArray.find((project) => project.id === preferredProjectId) || projectArray[0];
 
-    setProjects(projectData);
+    setProjects(projectArray);  // ← projectArray use karo
     setDashboard(dashboardData);
     setSelectedProjectId(nextProject?.id || null);
 
@@ -118,7 +122,7 @@ export default function DashboardPage({ session, logout, theme, changeTheme }) {
       setTasks([]);
       setMembers([]);
     }
-  }
+}
 
   async function runAction(action, successMessage) {
     setError("");

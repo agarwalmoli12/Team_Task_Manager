@@ -96,11 +96,11 @@ def add_member(
             status_code=400,
             detail="User not found. The teammate must sign up before you can add them."
         )
+    
     if user.role != data.role:
         raise HTTPException(
-            status_code=400,
-            detail=f"Selected role must match the user's account role: {user.role}"
-        )
+        detail=f"Selected role must match the user's account role: {user.role}"
+    )
 
     existing = db.query(ProjectMember).filter(
         ProjectMember.user_id == user.id,
