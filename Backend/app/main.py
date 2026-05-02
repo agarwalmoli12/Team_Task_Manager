@@ -1,18 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy import text
 from app.database import engine, Base
 from app.routers import auth, projects, tasks, dashboard
-import app.models  # sab models load hon
-
-# Tables create karo
-Base.metadata.create_all(bind=engine)
-with engine.begin() as connection:
-    connection.execute(
-        text("ALTER TABLE users ADD COLUMN IF NOT EXISTS role VARCHAR NOT NULL DEFAULT 'member'")
-    )
-    connection.execute(text("UPDATE users SET role = 'member' WHERE role = 'viewer'"))
-    connection.execute(text("UPDATE project_members SET role = 'member' WHERE role = 'viewer'"))
+import app.models
 
 app = FastAPI(
     title="Team Task Manager",
@@ -20,10 +10,9 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS — React frontend allow karo
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -33,6 +22,15 @@ app.include_router(auth.router)
 app.include_router(projects.router)
 app.include_router(tasks.router)
 app.include_router(dashboard.router)
+
+@app.on_event("startup")
+async def startup():
+    # Startup pe tables banao — safely
+    try:
+        Base.metadata.create_all(bind=engine)
+        print("✅ Database tables created!")
+    except Exception as e:
+        print(f"⚠️ DB Error: {e}")
 
 @app.get("/")
 def root():
