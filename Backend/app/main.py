@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
 from app.database import engine, Base
 from app.routers import auth, projects, tasks, dashboard
 import app.models
@@ -25,10 +26,15 @@ app.include_router(dashboard.router)
 
 @app.on_event("startup")
 async def startup():
-    # Startup pe tables banao — safely
     try:
         Base.metadata.create_all(bind=engine)
-        print(" Database tables created!")
+        # role column add karo agar nahi hai
+        with engine.begin() as conn:
+            conn.execute(text("""
+                ALTER TABLE users 
+                ADD COLUMN IF NOT EXISTS role VARCHAR NOT NULL DEFAULT 'member'
+            """))
+        print("✅ Database tables created!")
     except Exception as e:
         print(f" DB Error: {e}")
 
