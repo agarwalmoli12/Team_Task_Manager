@@ -21,10 +21,15 @@ export default function App() {
     return initialTheme;
   });
 
+  
   const [session, setSession] = useState(() => {
-    const stored = localStorage.getItem("ttm_session");
-    return stored ? JSON.parse(stored) : null;
-  });
+  const stored = localStorage.getItem("ttm_session");
+  if (!stored) return null;
+  const parsed = JSON.parse(stored);
+  
+  if (parsed?.user && !parsed.user.role) parsed.user.role = "member";
+  return parsed;
+});
 
   useEffect(() => {
     applyTheme(theme);
@@ -37,6 +42,8 @@ export default function App() {
   }
 
   function saveSession(data) {
+    if (!data.user) data.user = {};
+    if (!data.user.role) data.user.role = "member";
     localStorage.setItem("ttm_session", JSON.stringify(data));
     setSession(data);
   }
