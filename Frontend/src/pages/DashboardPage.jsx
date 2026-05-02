@@ -47,10 +47,11 @@ export default function DashboardPage({ session, logout, theme, changeTheme }) {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
   const token = session.access_token;
+  const currentUser = session?.user || {};
   const selectedProject =
     projects.find((project) => project.id === selectedProjectId) || projects[0];
   const activeProjectId = selectedProject?.id || null;
-  const isAccountAdmin = session.user.role === "admin";
+  const const isAccountAdmin = currentUser?.role === "admin";
   const isProjectAdmin = selectedProject?.my_role === "admin";
   const normalizedSearch = search.trim().toLowerCase();
   const filteredProjects = normalizedSearch
@@ -265,7 +266,7 @@ export default function DashboardPage({ session, logout, theme, changeTheme }) {
     <div className="flex min-h-screen bg-olive-50 dark:bg-[#171d12]">
       <Sidebar
         logout={logout}
-        user={session.user}
+        user={current.user}
         onNavigate={(section) => scrollToSection(section)}
       />
 
@@ -274,7 +275,7 @@ export default function DashboardPage({ session, logout, theme, changeTheme }) {
           <div className="h-full w-72" onClick={(e) => e.stopPropagation()}>
             <Sidebar
               logout={logout}
-              user={session.user}
+              user={current.user}
               mobile
               onClose={() => setMobileMenuOpen(false)}
               onNavigate={(section) => scrollToSection(section)}
